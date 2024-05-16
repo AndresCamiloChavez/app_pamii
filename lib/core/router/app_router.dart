@@ -12,10 +12,6 @@ final routerProvider = Provider<GoRouter>((ref) {
     redirect: (context, state) {
       // Aquí, obtenemos el estado del proveedor de autenticación
       final isLoggedIn = ref.read(loginFormProvider).isLoginSuccess;
-
-      print("HLOG navegación  ${isLoggedIn}");
-
-      // Comprobando si estamos en la página de login y el usuario ya está autenticado
       if (state.path == '/login' && isLoggedIn) {
         return '/home';
       }

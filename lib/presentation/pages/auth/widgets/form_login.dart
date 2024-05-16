@@ -9,29 +9,40 @@ class LoginForm extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final formData = ref.watch(loginFormProvider);
-
-    return Column(
-      children: [
-        TextField(
-          onChanged: (value) => ref.read(loginFormProvider.notifier).updateEmail(value),
-          decoration: InputDecoration(
-            labelText: 'Email',
-            errorText: formData.error,
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column( 
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center, 
+        children: [
+          TextField(
+            onChanged: (value) => ref.read(loginFormProvider.notifier).updateEmail(value),
+            style: const TextStyle(color: Colors.white),
+            decoration: InputDecoration(
+              labelText: 'Correo electrónico',
+              errorText: formData.error,
+            ),
           ),
-        ),
-        TextField(
-          onChanged: (value) => ref.read(loginFormProvider.notifier).updatePassword(value),
-          decoration: InputDecoration(
-            labelText: 'Password',
-            errorText: formData.error,
+          TextField(
+            style: const TextStyle(color: Colors.white),
+            onChanged: (value) => ref.read(loginFormProvider.notifier).updatePassword(value),
+            decoration: InputDecoration(
+              labelText: 'Contraseña',
+              hintStyle: const TextStyle(color: Colors.white),
+              errorText: formData.error,
+              hoverColor: Colors.white
+            ),
+            obscureText: true,
           ),
-          obscureText: true,
-        ),
-        ElevatedButton(
-          onPressed: () => ref.read(loginFormProvider.notifier).submitForm(),
-          child: const Text('Login'),
-        ),
-      ],
+          const SizedBox(
+            height: 20,
+          ),
+          ElevatedButton(
+            onPressed: () => ref.read(loginFormProvider.notifier).submitForm(),
+            child: const Text('Iniciar sesión'),
+          ),
+        ],
+      ),
     );
   }
 }

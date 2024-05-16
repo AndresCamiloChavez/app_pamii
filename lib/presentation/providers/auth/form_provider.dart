@@ -19,21 +19,28 @@ class LoginFormState {
   final String password;
   final bool isLoginSuccess;
   final String? error;
+  final String? alertMessage; // Mensaje para la alerta
 
   LoginFormState(
       {this.email = '',
       this.password = '',
       this.error,
-      this.isLoginSuccess = false});
+      this.isLoginSuccess = false,
+      this.alertMessage});
 
   LoginFormState copyWith(
-      {String? email, String? password, String? error, bool? isLoginSuccess}) {
+      {String? email,
+      String? password,
+      String? error,
+      bool? isLoginSuccess,
+      String? alertMessage}) {
     return LoginFormState(
-        email: email ?? this.email,
-        password: password ?? this.password,
-        error: error ?? this.error,
-        isLoginSuccess: isLoginSuccess ?? this.isLoginSuccess
-        );
+      email: email ?? this.email,
+      password: password ?? this.password,
+      error: error ?? this.error,
+      isLoginSuccess: isLoginSuccess ?? this.isLoginSuccess,
+      alertMessage: alertMessage ?? this.alertMessage,
+    );
   }
 }
 
@@ -57,24 +64,27 @@ class LoginFormNotifier extends StateNotifier<LoginFormState> {
         final isLoggedIn = await ref
             .read(authRepositoryProvider)
             .login(state.email, state.password);
-        print("HLOG respuesta ${isLoggedIn}");
         if (isLoggedIn) {
           state = state.copyWith(isLoginSuccess: true);
           ref.read(routerProvider).go('/home');
-            print("HLOG respuesta despues ${isLoggedIn}");
-
         } else {
           // Actualizar el estado para mostrar un mensaje de error
-          state = state.copyWith(error: 'Invalid credentials');
+          state = state.copyWith(error: 'Invalid credentials', alertMessage: "Credenciales invalidas");
         }
       } catch (e) {
         // Actualizar el estado para mostrar un mensaje de error
+        
         state = state.copyWith(error: e.toString());
       }
     } else {
       // Actualizar el estado para mostrar un mensaje de error de validación
-      state = state.copyWith(error: 'Please fill in all fields correctly');
+      state = state.copyWith(error: 'Complete los campos correctamente');
     }
+  }
+
+  void clearAlertMessage() {
+    state = state.copyWith(
+        alertMessage: ''); // Establece el mensaje de alerta a una cadena vacía
   }
 
   // Método de validación simple
