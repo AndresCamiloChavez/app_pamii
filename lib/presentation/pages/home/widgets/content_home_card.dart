@@ -1,6 +1,4 @@
 import 'package:app_pamii/domain/entities/company.entity.dart';
-import 'package:app_pamii/presentation/providers/company/company_provider.dart';
-import 'package:app_pamii/presentation/providers/services/services_provider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

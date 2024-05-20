@@ -1,7 +1,9 @@
 import 'package:app_pamii/core/network/dio_setup.dart';
 import 'package:app_pamii/core/router/app_router.dart';
 import 'package:app_pamii/data/repositories/auth/auth_repository.dart';
+import 'package:app_pamii/presentation/helpers/loading.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final loginFormProvider =
@@ -20,26 +22,32 @@ class LoginFormState {
   final bool isLoginSuccess;
   final String? error;
   final String? alertMessage; // Mensaje para la alerta
+  final bool isLoading; // Añadir estado de carga aquí
 
-  LoginFormState(
-      {this.email = '',
-      this.password = '',
-      this.error,
-      this.isLoginSuccess = false,
-      this.alertMessage});
+  LoginFormState({
+    this.email = '',
+    this.password = '',
+    this.error,
+    this.isLoginSuccess = false,
+    this.alertMessage,
+    this.isLoading = false,
+  });
 
-  LoginFormState copyWith(
-      {String? email,
-      String? password,
-      String? error,
-      bool? isLoginSuccess,
-      String? alertMessage}) {
+  LoginFormState copyWith({
+    String? email,
+    String? password,
+    String? error,
+    bool? isLoginSuccess,
+    String? alertMessage,
+    bool? isLoading,
+  }) {
     return LoginFormState(
       email: email ?? this.email,
       password: password ?? this.password,
       error: error ?? this.error,
       isLoginSuccess: isLoginSuccess ?? this.isLoginSuccess,
       alertMessage: alertMessage ?? this.alertMessage,
+      isLoading: isLoading ?? this.isLoading,
     );
   }
 }
@@ -57,27 +65,35 @@ class LoginFormNotifier extends StateNotifier<LoginFormState> {
     state = state.copyWith(password: password);
   }
 
-  void submitForm() async {
+  void submitForm(BuildContext context) async {
+    showDialog(
+      context: context,
+      barrierDismissible:
+          false, // Hace que el diálogo no se pueda descartar tocando fuera de él
+      builder: (BuildContext context) {
+        return const LoadingDialog(message: "Iniciando sesión...");
+      },
+    );
+
     if (_validateFields(state.email, state.password)) {
       try {
-        // Llama al caso de uso de login
         final isLoggedIn = await ref
             .read(authRepositoryProvider)
             .login(state.email, state.password);
         if (isLoggedIn) {
           state = state.copyWith(isLoginSuccess: true);
+          if (mounted) Navigator.of(context).pop();
           ref.read(routerProvider).go('/home');
         } else {
-          // Actualizar el estado para mostrar un mensaje de error
-          state = state.copyWith(error: 'Invalid credentials', alertMessage: "Credenciales invalidas");
+          if (mounted) Navigator.of(context).pop();
+          state = state.copyWith(error: 'Invalid credentials');
         }
       } catch (e) {
-        // Actualizar el estado para mostrar un mensaje de error
-        
+        if (mounted) Navigator.of(context).pop();
         state = state.copyWith(error: e.toString());
       }
     } else {
-      // Actualizar el estado para mostrar un mensaje de error de validación
+      if (mounted) Navigator.of(context).pop();
       state = state.copyWith(error: 'Complete los campos correctamente');
     }
   }

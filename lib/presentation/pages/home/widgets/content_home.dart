@@ -17,6 +17,7 @@ class ContentHome extends ConsumerWidget {
         ]);
       },
       child: ListView(
+        physics: const BouncingScrollPhysics(),
         children: [
           const SectionTitle(title: "Principales Servicios"),
           ServiceSection(ref.watch(serviceListProvider)),

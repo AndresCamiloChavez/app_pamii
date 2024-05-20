@@ -1,16 +1,14 @@
 import 'package:app_pamii/presentation/pages/auth/widgets/form_login.dart';
+import 'package:app_pamii/presentation/providers/auth/form_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends ConsumerWidget {
   const LoginPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final formData = ref.watch(loginFormProvider);
     return Scaffold(
         body: Stack(
       children: [
@@ -22,25 +20,28 @@ class _LoginPageState extends State<LoginPage> {
             fit: BoxFit.cover,
           ),
         ),
-        const SafeArea(
+                if (formData.isLoading) const Center(child: CircularProgressIndicator()),
+
+        SafeArea(
           child: Padding(
-            padding: EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(10.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text(
+                if (formData.isLoading) const CircularProgressIndicator(),
+                const Text(
                   'Bienvenido',
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 50,
                       fontWeight: FontWeight.bold),
                 ),
-                Text(
+                const Text(
                   '¡Es un gusto verte!',
                   style: TextStyle(color: Colors.white, fontSize: 30),
                 ),
-                LoginForm()
+                const LoginForm()
               ],
             ),
           ),
