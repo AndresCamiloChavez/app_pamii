@@ -1,47 +1,31 @@
+import 'package:app_pamii/presentation/pages/home/widgets/content_home_card.dart';
 import 'package:app_pamii/presentation/providers/company/company_provider.dart';
+import 'package:app_pamii/presentation/providers/services/services_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ContentHome extends ConsumerWidget {
-  const ContentHome({
-    super.key,
-  });
+  const ContentHome({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final companyList = ref.watch(companyListProvider);
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Text(
-            "Principales Negocios",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 27),
-          ),
-        ),
-        SizedBox(
-            height: 200,
-            child: companyList.when(
-              data: (companies) => PageView.builder(
-                  pageSnapping: true,
-                  controller: PageController(viewportFraction: 0.8),
-                  itemCount: companies.length,
-                  itemBuilder: (context, index) {
-                    final company = companies[index];
-                    return Card(
-                      color: Colors.blue,
-                      child: Center(
-                        child: Text(company.name),
-                      ),
-                    );
-                  }),
-              error: (error, stackTrace) {},
-              loading: () {
-              },
-            )),
-      ],
+    return RefreshIndicator(
+      onRefresh: () async {
+        await Future.wait([
+          ref.refresh(companyListProvider.future),
+          ref.refresh(serviceListProvider.future),
+        ]);
+      },
+      child: ListView(
+        children: [
+          const SectionTitle(title: "Principales Servicios"),
+          ServiceSection(ref.watch(serviceListProvider)),
+          const SectionTitle(title: "Principales Negocios"),
+          CompanySection(ref.watch(companyListProvider)),
+          const SectionTitle(title: "Negocios cerca a ti"),
+          CompanySection(ref.watch(companyListProvider)),
+        ],
+      ),
     );
   }
 }
