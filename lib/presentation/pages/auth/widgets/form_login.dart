@@ -22,7 +22,7 @@ class LoginForm extends ConsumerWidget {
             decoration: InputDecoration(
                 labelText: 'Correo electrónico',
                 errorText: formData.error,
-                labelStyle: const TextStyle(color: Colors.white)),
+                labelStyle: const TextStyle(color: Colors.white, fontSize: 18)),
           ),
           TextField(
             style: const TextStyle(
@@ -32,8 +32,9 @@ class LoginForm extends ConsumerWidget {
             decoration: InputDecoration(
               labelText: 'Contraseña',
               labelStyle: const TextStyle(
-                  color: Colors
-                      .white), // Asegúrate de que el color del label también sea blanco
+                  color: Colors.white,
+                  fontSize:
+                      18), // Asegúrate de que el color del label también sea blanco
               hintStyle: const TextStyle(
                   color: Colors.white), // Estilo para el texto de sugerencia
               errorText: formData.error,
@@ -46,7 +47,8 @@ class LoginForm extends ConsumerWidget {
           ElevatedButton(
             onPressed: () =>
                 ref.read(loginFormProvider.notifier).submitForm(context),
-            child: const Text('Iniciar sesión'),
+            child: Text('Iniciar sesión',
+                style: TextStyle(color: Colors.amber[900], fontSize: 17)),
           ),
         ],
       ),
