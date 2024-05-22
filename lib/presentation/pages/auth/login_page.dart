@@ -1,3 +1,4 @@
+import 'package:app_pamii/core/router/app_router.dart';
 import 'package:app_pamii/presentation/pages/auth/widgets/form_login.dart';
 import 'package:app_pamii/presentation/pages/auth/widgets/redirection_page.dart';
 import 'package:app_pamii/presentation/providers/auth/form_provider.dart';
@@ -54,7 +55,19 @@ class LoginPage extends ConsumerWidget {
                   ],
                 ),
                 const Expanded(child: LoginForm()),
-                const PageRedirection(),
+                GestureDetector(
+                  child: const PageRedirection(),
+                  onTap: () {
+                    ref.read(routerProvider).push('/login/register');
+                  },
+                ),
+                GestureDetector(
+                    onTap: () {
+                      ref.read(routerProvider).push('/login/register-business');
+                    },
+                    child: const PageRedirection(
+                      message: "¿No tienes una cuenta Negocio?",
+                    )),
               ],
             ),
           ),

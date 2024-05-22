@@ -7,7 +7,7 @@ class PageRedirection extends StatelessWidget {
 
   const PageRedirection(
       {super.key,
-      this.message = "¿No tienes cuenta aun?",
+      this.message = "¿No tienes cuenta aún?",
       this.option = "Resgistrate"});
 
   @override
