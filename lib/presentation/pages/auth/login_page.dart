@@ -1,8 +1,7 @@
+import 'package:app_pamii/presentation/pages/auth/widgets/common_widgets_page.dart';
 import 'package:app_pamii/presentation/pages/auth/widgets/form_login.dart';
-import 'package:app_pamii/presentation/pages/auth/widgets/redirection_page.dart';
 import 'package:app_pamii/presentation/providers/auth/form_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class LoginPage extends ConsumerWidget {
