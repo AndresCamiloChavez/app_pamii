@@ -24,36 +24,38 @@ class RegisterPage extends ConsumerWidget {
       SafeArea(
           child: Padding(
         padding: const EdgeInsets.all(10.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            if (formData.isLoading) const CircularProgressIndicator(),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  ' Bienvenido ',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 50,
-                      fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  ' ¡Es un gusto verte! ',
-                  style: TextStyle(color: Colors.white, fontSize: 30),
-                ),
-              ],
-            ),
-          
-            Expanded(child: RegisterForm()),
-            const PageRedirection()
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (formData.isLoading) const CircularProgressIndicator(),
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    ' Bienvenido ',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 50,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    ' ¡Es un gusto verte! ',
+                    style: TextStyle(color: Colors.white, fontSize: 30),
+                  ),
+                ],
+              ),
+            
+              const RegisterForm(),
+              const PageRedirection(message: "¿Ya tienes una cuenta?", option: "Ingresa",)
+            ],
+          ),
         ),
       ))
     ]));

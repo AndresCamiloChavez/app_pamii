@@ -22,7 +22,7 @@ class LoginForm extends ConsumerWidget {
             decoration: InputDecoration(
                 labelText: 'Correo electrónico',
                 errorText: formData.error,
-                labelStyle: const TextStyle(color: Colors.white, fontSize: 18)),
+                labelStyle: const TextStyle(color: Colors.white, fontSize: 20)),
           ),
           TextField(
             style: const TextStyle(
@@ -34,7 +34,7 @@ class LoginForm extends ConsumerWidget {
               labelStyle: const TextStyle(
                   color: Colors.white,
                   fontSize:
-                      18), // Asegúrate de que el color del label también sea blanco
+                      20), // Asegúrate de que el color del label también sea blanco
               hintStyle: const TextStyle(
                   color: Colors.white), // Estilo para el texto de sugerencia
               errorText: formData.error,
