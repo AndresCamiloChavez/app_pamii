@@ -9,15 +9,14 @@ class RegisterBusinessPage extends ConsumerWidget {
   const RegisterBusinessPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final formData = ref
-        .watch(registerCompanyFormProvider); // Usando el provider de registro
+  Widget build(BuildContext context, WidgetRef ref) {
+    final formData = ref .watch(registerCompanyFormProvider); // Usando el provider de registro
 
     return Scaffold(
       body: Stack(
         children: [
-          BackGroundImage(),
-          FirstTitle(),
+          const BackGroundImage(),
+       
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(10.0),
@@ -26,12 +25,13 @@ class RegisterBusinessPage extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    const FirstTitle(),
                     TextField(
                       onChanged: (value) => ref
                           .read(registerCompanyFormProvider.notifier)
                           .updateName(value),
                       keyboardType: TextInputType.emailAddress,
-                      style: TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colors.white),
                       decoration: InputDecoration(
                           labelText: 'Nombre de negocio',
                           errorText: formData.errors['name'],
@@ -45,7 +45,7 @@ class RegisterBusinessPage extends ConsumerWidget {
                       keyboardType: TextInputType.multiline,
                       maxLines: 4,
                       minLines: 2,
-                      style: TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colors.white),
                       decoration: InputDecoration(
                           labelText: 'Descripción',
                           errorText: formData.errors['description'],
@@ -58,7 +58,7 @@ class RegisterBusinessPage extends ConsumerWidget {
                           .read(registerCompanyFormProvider.notifier)
                           .updateEmail(value),
                       keyboardType: TextInputType.emailAddress,
-                      style: TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colors.white),
                       decoration: InputDecoration(
                           labelText: 'Correo electrónico',
                           errorText: formData.errors['email'],

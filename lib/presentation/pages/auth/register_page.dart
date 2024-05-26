@@ -1,6 +1,5 @@
 import 'package:app_pamii/core/router/app_router.dart';
 import 'package:app_pamii/presentation/pages/auth/widgets/form_register.dart';
-import 'package:app_pamii/presentation/providers/auth/form_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'widgets/common_widgets_page.dart';
@@ -10,11 +9,9 @@ class RegisterPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final formData = ref.watch(loginFormProvider);
     return Scaffold(
         body: Stack(children: [
       const BackGroundImage(),
-      if (formData.isLoading) const Center(child: CircularProgressIndicator()),
       SafeArea(
           child: Padding(
         padding: const EdgeInsets.all(15),
@@ -23,12 +20,14 @@ class RegisterPage extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            if (formData.isLoading) const CircularProgressIndicator(),
             const FirstTitle(),
             const RegisterForm(),
-            const PageRedirection(
+            PageRedirection(
               message: "¿Ya tienes una cuenta?",
               option: "Ingresa",
+              onTap: () {
+                ref.read(routerProvider).push('/login');
+              },
             )
           ],
         ),
