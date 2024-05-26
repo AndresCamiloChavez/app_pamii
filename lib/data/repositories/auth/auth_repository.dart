@@ -1,4 +1,9 @@
+import 'dart:convert';
+
 import 'package:app_pamii/core/network/dio_setup.dart';
+import 'package:app_pamii/core/network/error_response.dart';
+import 'package:app_pamii/domain/entities/company/company.entity.dart';
+import 'package:app_pamii/domain/entities/company/company.request.dart';
 import 'package:app_pamii/domain/entities/user.request.dart';
 import 'package:app_pamii/presentation/providers/auth/auth_provider.dart';
 import 'package:dio/dio.dart';
@@ -15,39 +20,55 @@ class AuthRepository {
 
   AuthRepository(this.dio, this.ref);
 
-  Future<bool> login(String email, String password) async {
+
+  Future<ResponsePamii<T>> _makePostRequest<T>(
+    String path, 
+    Map<String, dynamic> data, 
+    T Function(Map<String, dynamic> json) fromJson,
+    [Function(T)? onSuccess]
+  ) async {
     try {
-      final response = await dio.post('/auth/login', data: {
-        'email': email,
-        'password': password,
-      });
+      print("Log. data ${data}");
+      final response = await dio.post(path, data: jsonEncode(data));
       if (response.statusCode == 200 || response.statusCode == 201) {
-        ref.read(authProvider.notifier).login(response.data['token']);
-        return true;
+        T result = fromJson(response.data);
+        if (onSuccess != null) onSuccess(result);
+        return ResponsePamii<T>(response: result);
       }
-      return false;
-    } catch (e) {
-      return false;
+      return ResponsePamii<T>(isFailure: true, messageError: "Ocurrió un error en el sistema");
+    } on DioException catch (e) {
+      print("Log ${e.response?.data}");
+      print("Log ${e}");
+      return ResponsePamii<T>(
+        isFailure: true,
+        messageError: e.response?.data['message'] ?? "Ocurrió un error en el sistema"
+      );
     }
   }
 
-  Future<bool> register(UserRequest userRequest) async {
-    try {
-      final response = await dio.post('/users/register', data: {
-        "firstName": userRequest.firstName,  
-        "lastName": userRequest.lastName, 
-        "phone": userRequest.phone, 
-        "password": userRequest.password, 
-        "email": userRequest.email, 
-        "birthDay": userRequest.birthDay,
-      });
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        ref.read(authProvider.notifier).login(response.data['token']);
-        return true;
-      }
-      return false;
-    } catch (e) {
-      return false;
-    }
+  Future<ResponsePamii<LoginUserResponse>> login(String email, String password) {
+    return _makePostRequest<LoginUserResponse>(
+      '/auth/login',
+      {'email': email, 'password': password},
+      LoginUserResponse.fromJson,
+      (user) => ref.read(authProvider.notifier).login(user.token)
+    );
   }
+
+  Future<ResponsePamii<User>> register(UserRequest userRequest) {
+    return _makePostRequest<User>(
+      '/users/register',
+      userRequest.toJson(),
+      User.fromJson
+    );
+  }
+
+  Future<ResponsePamii<CompanyResponse>> registerCompany(CompanyRequest companyRequest) {
+    return _makePostRequest<CompanyResponse>(
+      '/business/register',
+      companyRequest.toJson(),
+      CompanyResponse.fromJson
+    );
+  }
+
 }

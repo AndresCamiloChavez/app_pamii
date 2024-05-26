@@ -10,7 +10,6 @@ class LoginPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final formData = ref.watch(loginFormProvider);
     return Scaffold(
         body: Stack(
       children: [
@@ -22,8 +21,6 @@ class LoginPage extends ConsumerWidget {
             fit: BoxFit.cover,
           ),
         ),
-        if (formData.isLoading)
-          const Center(child: CircularProgressIndicator()),
         SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(10.0),
@@ -31,7 +28,6 @@ class LoginPage extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                if (formData.isLoading) const CircularProgressIndicator(),
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -54,19 +50,17 @@ class LoginPage extends ConsumerWidget {
                   ],
                 ),
                 const Expanded(child: LoginForm()),
-                GestureDetector(
-                  child: const PageRedirection(),
+                PageRedirection(
                   onTap: () {
                     ref.read(routerProvider).push('/login/register');
                   },
                 ),
-                GestureDetector(
-                    onTap: () {
-                      ref.read(routerProvider).push('/login/register-business');
-                    },
-                    child: const PageRedirection(
-                      message: "¿No tienes una cuenta Negocio?",
-                    )),
+                PageRedirection(
+                  onTap: () {
+                    ref.read(routerProvider).push('/login/register-business');
+                  },
+                  message: "¿No tienes una cuenta Negocio?",
+                ),
               ],
             ),
           ),

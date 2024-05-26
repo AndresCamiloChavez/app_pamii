@@ -80,13 +80,13 @@ class LoginFormNotifier extends StateNotifier<LoginFormState> {
         final isLoggedIn = await ref
             .read(authRepositoryProvider)
             .login(state.email, state.password);
-        if (isLoggedIn) {
+        if (!isLoggedIn.isFailure) {
           state = state.copyWith(isLoginSuccess: true);
           if (mounted) Navigator.of(context).pop();
           ref.read(routerProvider).go('/home');
         } else {
           if (mounted) Navigator.of(context).pop();
-          state = state.copyWith(error: 'Invalid credentials');
+          state = state.copyWith(error: 'Credenciales invalidas');
         }
       } catch (e) {
         if (mounted) Navigator.of(context).pop();

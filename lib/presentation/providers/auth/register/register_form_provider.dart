@@ -123,7 +123,6 @@ class RegisterFormNotifier extends StateNotifier<RegisterFormState> {
                 password: state.password,
                 birthDay: state.birthDay,
                 email: state.email));
-        print("Resultado ${isSuccessRegister}");
         Navigator.of(context).pop();
         state = state.copyWith(isLoading: false);
         ref

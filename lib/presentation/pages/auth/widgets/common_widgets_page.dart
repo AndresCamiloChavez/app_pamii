@@ -1,16 +1,20 @@
 import 'package:app_pamii/core/constants/colors.dart';
-import 'package:app_pamii/core/router/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PageRedirection extends ConsumerWidget {
   final String message;
   final String option;
+  final VoidCallback onTap;
 
   const PageRedirection(
-      {super.key,
+      {
+      super.key,
+      required this.onTap,
       this.message = "¿No tienes cuenta aún?",
-      this.option = "Resgistrate"});
+      this.option = "Resgistrate"
+      }
+  );
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -22,7 +26,7 @@ class PageRedirection extends ConsumerWidget {
           Text(message,
               style: const TextStyle(color: Colors.white, fontSize: 17)),
           TextButton(
-              onPressed: () => ref.read(routerProvider).push('/login/register'),
+              onPressed: onTap,
               child: Text(option,
                   style: const TextStyle(
                       color: AppColors.primaryColor,

@@ -1,3 +1,4 @@
+import 'package:app_pamii/core/router/app_router.dart';
 import 'package:app_pamii/presentation/pages/auth/widgets/form_register.dart';
 import 'package:app_pamii/presentation/providers/auth/form_provider.dart';
 import 'package:flutter/material.dart';
@@ -51,9 +52,14 @@ class RegisterPage extends ConsumerWidget {
                   ),
                 ],
               ),
-            
               const RegisterForm(),
-              const PageRedirection(message: "¿Ya tienes una cuenta?", option: "Ingresa",)
+              PageRedirection(
+                message: "¿Ya tienes una cuenta?",
+                option: "Ingresa",
+                onTap: () {
+                  ref.read(routerProvider).push('/login');
+                },
+              )
             ],
           ),
         ),
