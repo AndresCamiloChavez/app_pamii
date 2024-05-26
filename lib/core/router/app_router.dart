@@ -1,5 +1,6 @@
 import 'package:app_pamii/presentation/pages/auth/login_page.dart';
 import 'package:app_pamii/presentation/pages/auth/register_page.dart';
+import 'package:app_pamii/presentation/pages/auth/register_page_business.dart';
 import 'package:app_pamii/presentation/pages/home/home_page.dart';
 import 'package:app_pamii/presentation/providers/auth/form_provider.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +50,11 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: 'register-business',
+<<<<<<< HEAD
             builder: (context, state) => const RegisterPage(),
+=======
+            builder: (context, state) => const RegisterBusinessPage(),
+>>>>>>> 1136449 (Implementación y arreglo de rutas)
           ),
         ],
       ),
