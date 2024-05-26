@@ -50,11 +50,7 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: 'register-business',
-<<<<<<< HEAD
-            builder: (context, state) => const RegisterPage(),
-=======
             builder: (context, state) => const RegisterBusinessPage(),
->>>>>>> 1136449 (Implementación y arreglo de rutas)
           ),
         ],
       ),
