@@ -1,8 +1,8 @@
 import 'package:app_pamii/core/network/dio_setup.dart';
+import 'package:app_pamii/domain/entities/user.request.dart';
 import 'package:app_pamii/presentation/providers/auth/auth_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
   final Dio dio = ref.read(dioProvider);
@@ -20,6 +20,26 @@ class AuthRepository {
       final response = await dio.post('/auth/login', data: {
         'email': email,
         'password': password,
+      });
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        ref.read(authProvider.notifier).login(response.data['token']);
+        return true;
+      }
+      return false;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> register(UserRequest userRequest) async {
+    try {
+      final response = await dio.post('/users/register', data: {
+        "firstName": userRequest.firstName,  
+        "lastName": userRequest.lastName, 
+        "phone": userRequest.phone, 
+        "password": userRequest.password, 
+        "email": userRequest.email, 
+        "birthDay": userRequest.birthDay,
       });
       if (response.statusCode == 200 || response.statusCode == 201) {
         ref.read(authProvider.notifier).login(response.data['token']);
