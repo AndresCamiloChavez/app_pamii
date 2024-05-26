@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 import 'package:app_pamii/presentation/pages/auth/widgets/common_widgets_page.dart';
-=======
 import 'package:app_pamii/core/router/app_router.dart';
->>>>>>> 1136449 (Implementación y arreglo de rutas)
 import 'package:app_pamii/presentation/pages/auth/widgets/form_login.dart';
 import 'package:app_pamii/presentation/providers/auth/form_provider.dart';
 import 'package:flutter/material.dart';
