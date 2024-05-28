@@ -28,7 +28,6 @@ class AuthRepository {
     [Function(T)? onSuccess]
   ) async {
     try {
-      print("Log. data ${data}");
       final response = await dio.post(path, data: jsonEncode(data));
       if (response.statusCode == 200 || response.statusCode == 201) {
         T result = fromJson(response.data);
@@ -37,8 +36,6 @@ class AuthRepository {
       }
       return ResponsePamii<T>(isFailure: true, messageError: "Ocurrió un error en el sistema");
     } on DioException catch (e) {
-      print("Log ${e.response?.data}");
-      print("Log ${e}");
       return ResponsePamii<T>(
         isFailure: true,
         messageError: e.response?.data['message'] ?? "Ocurrió un error en el sistema"
@@ -69,6 +66,14 @@ class AuthRepository {
       companyRequest.toJson(),
       CompanyResponse.fromJson
     );
+  }
+  dynamic sendCodeRecover(String email) {
+    // return _makePostRequest<CompanyResponse>(
+    //   '/business/register',
+    //   "email",
+
+    // );
+    return "";
   }
 
 }

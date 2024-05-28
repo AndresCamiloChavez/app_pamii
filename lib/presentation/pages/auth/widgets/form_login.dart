@@ -1,4 +1,5 @@
 import 'package:app_pamii/core/constants/colors.dart';
+import 'package:app_pamii/core/router/app_router.dart';
 import 'package:app_pamii/presentation/providers/auth/form_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -51,6 +52,9 @@ class LoginForm extends ConsumerWidget {
             child: Text('Iniciar sesión',
                 style: TextStyle(color: AppTheme.theme.primaryColor, fontSize: 17)),
           ),
+          TextButton(onPressed: (){
+            ref.read(routerProvider).push('/recover');
+          }, child: const Text("¿Olvidaste la contraseña?"))
         ],
       ),
     );
