@@ -1,3 +1,4 @@
+import 'package:app_pamii/presentation/pages/auth/widgets/common_widgets_page.dart';
 import 'package:flutter/material.dart';
 
 class RegisterBusinessPage extends StatelessWidget {
@@ -5,9 +6,12 @@ class RegisterBusinessPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        child: Text("Hola"),
+    return const Scaffold(
+      body: Stack(
+        children: [
+          BackGroundImage(),
+          FirstTitle(),
+        ],
       ),
     );
   }
