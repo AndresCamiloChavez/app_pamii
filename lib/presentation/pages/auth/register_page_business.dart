@@ -9,21 +9,15 @@ class RegisterBusinessPage extends ConsumerWidget {
   const RegisterBusinessPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final formData = ref
         .watch(registerCompanyFormProvider); // Usando el provider de registro
 
     return Scaffold(
       body: Stack(
         children: [
-          SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            child: Image.asset(
-              'assets/bg.png',
-              fit: BoxFit.cover,
-            ),
-          ),
+          BackGroundImage(),
+          FirstTitle(),
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(10.0),
@@ -32,27 +26,6 @@ class RegisterBusinessPage extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          ' Bienvenido ',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 50,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          ' ¡Es un gusto verte! ',
-                          style: TextStyle(color: Colors.white, fontSize: 30),
-                        ),
-                      ],
-                    ),
                     TextField(
                       onChanged: (value) => ref
                           .read(registerCompanyFormProvider.notifier)
