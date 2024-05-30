@@ -4,8 +4,7 @@ class AppColors {
   static const Color primaryColor = Color(0xFFF27F3D);
   static const Color primaryColorLight = Color(0xFF5D60A6);
   static const Color primaryColorDark = Color(0xFF0A00B6);
-  static const Color secondaryColor =
-      Color(0xFF6A6DA6); // Renombrado de accentColor a secondaryColor
+  static const Color secondaryColor = Color(0xFF6A6DA6); // Renombrado de accentColor a secondaryColor
 }
 
 class AppTheme {
