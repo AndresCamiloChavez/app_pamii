@@ -1,4 +1,4 @@
-import 'package:app_pamii/domain/entities/company.entity.dart';
+import 'package:app_pamii/domain/entities/company/company.entity.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,13 +23,13 @@ class SectionTitle extends StatelessWidget {
 
 class CompanySection extends StatelessWidget {
 
-  final AsyncValue<List<Company>> companies;
+  final AsyncValue<List<CompanyResponse>> companies;
   const CompanySection(this.companies,{super.key});
 
   @override
   Widget build(BuildContext context) {
     return companies.when(
-      data: (List<Company> companies) => CarouselSlider(
+      data: (List<CompanyResponse> companies) => CarouselSlider(
         options: CarouselOptions(
           autoPlay: true,
           enlargeCenterPage: true,
@@ -73,7 +73,7 @@ class CompanySection extends StatelessWidget {
 }
 
 class CompanyCard extends StatelessWidget {
-  final Company company;
+  final CompanyResponse company;
   const CompanyCard({super.key, required this.company});
 
   @override

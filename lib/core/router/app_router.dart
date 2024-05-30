@@ -1,4 +1,5 @@
 import 'package:app_pamii/presentation/pages/auth/login_page.dart';
+import 'package:app_pamii/presentation/pages/auth/recover/verification_email_page.dart';
 import 'package:app_pamii/presentation/pages/auth/register_page.dart';
 import 'package:app_pamii/presentation/pages/auth/register_page_business.dart';
 import 'package:app_pamii/presentation/pages/home/home_page.dart';
@@ -17,8 +18,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       print("Log full path ${path}");
 
       // Permitir explícitamente la navegación a las páginas de registro sin redirección
-      if (path!.endsWith('/login/register') ||
-          path.endsWith('/login/register-business')) {
+      if (path!.endsWith('/login/register') || path.endsWith('/login/register-business') || path.endsWith('/recover')) {
         return null;
       }
 
@@ -39,6 +39,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/',
         builder: (context, state) => Container(),
+      ),
+      GoRoute(
+        path: '/recover',
+        builder: (context, state) => const VerificationEmailPage(),
       ),
       GoRoute(
         path: '/login',

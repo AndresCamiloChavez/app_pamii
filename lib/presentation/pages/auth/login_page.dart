@@ -11,13 +11,11 @@ class LoginPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final formData = ref.watch(loginFormProvider);
     return Scaffold(
         body: Stack(
       children: [
+
         const BackGroundImage(),
-        if (formData.isLoading)
-          const Center(child: CircularProgressIndicator()),
         SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(10.0),
@@ -96,21 +94,6 @@ class LoginPage extends ConsumerWidget {
                       ),
                     ])
                   ],
-                )
-                /*GestureDetector(
-                  child: const PageRedirection(),
-                  onTap: () {
-                    ref.read(routerProvider).push('/login/register');
-                  },
-                ),
-              GestureDetector(
-                    onTap: () {
-                      ref.read(routerProvider).push('/login/register-business');
-                    },
-                    child: const PageRedirection(
-                      message: "¿No tienes una cuenta Negocio?",
-                    )),*/
-              ],
             ),
           ),
         )

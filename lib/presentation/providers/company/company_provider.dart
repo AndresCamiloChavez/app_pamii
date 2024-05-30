@@ -1,6 +1,6 @@
 import 'package:app_pamii/core/network/dio_setup.dart';
 import 'package:app_pamii/data/repositories/company/company_repository.dart';
-import 'package:app_pamii/domain/entities/company.entity.dart';
+import 'package:app_pamii/domain/entities/company/company.entity.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final companyRepositoryProvider = Provider<CompanyRepository>((ref) {
@@ -8,6 +8,6 @@ final companyRepositoryProvider = Provider<CompanyRepository>((ref) {
   return CompanyRepository(dio, ref);
 });
 
-final companyListProvider = FutureProvider<List<Company>>((ref) async {
+final companyListProvider = FutureProvider<List<CompanyResponse>>((ref) async {
   return ref.read(companyRepositoryProvider).getCompanies();
 });

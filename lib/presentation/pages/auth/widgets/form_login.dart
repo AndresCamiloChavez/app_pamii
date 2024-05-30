@@ -1,3 +1,5 @@
+import 'package:app_pamii/core/constants/colors.dart';
+import 'package:app_pamii/core/router/app_router.dart';
 import 'package:app_pamii/presentation/providers/auth/form_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,7 +28,7 @@ class LoginForm extends ConsumerWidget {
           ),
           TextField(
             style: const TextStyle(
-                color: Colors.white), // Estilo para el texto ingresado
+                color: Colors.white),
             onChanged: (value) =>
                 ref.read(loginFormProvider.notifier).updatePassword(value),
             decoration: InputDecoration(
@@ -34,9 +36,9 @@ class LoginForm extends ConsumerWidget {
               labelStyle: const TextStyle(
                   color: Colors.white,
                   fontSize:
-                      20), // Asegúrate de que el color del label también sea blanco
+                      20),
               hintStyle: const TextStyle(
-                  color: Colors.white), // Estilo para el texto de sugerencia
+                  color: Colors.white),
               errorText: formData.error,
             ),
             obscureText: true,
@@ -48,8 +50,11 @@ class LoginForm extends ConsumerWidget {
             onPressed: () =>
                 ref.read(loginFormProvider.notifier).submitForm(context),
             child: Text('Iniciar sesión',
-                style: TextStyle(color: Colors.amber[900], fontSize: 17)),
+                style: TextStyle(color: AppTheme.theme.primaryColor, fontSize: 17)),
           ),
+          TextButton(onPressed: (){
+            ref.read(routerProvider).push('/recover');
+          }, child: const Text("¿Olvidaste la contraseña?"))
         ],
       ),
     );
