@@ -15,21 +15,24 @@ class RegisterPage extends ConsumerWidget {
       SafeArea(
           child: Padding(
         padding: const EdgeInsets.all(15),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const FirstTitle(),
-            const RegisterForm(),
-            PageRedirection(
-              message: "¿Ya tienes una cuenta?",
-              option: "Ingresa",
-              onTap: () {
-                ref.read(routerProvider).push('/login');
-              },
-            )
-          ],
+        child: SingleChildScrollView(          
+          child: ConstrainedBox(constraints: BoxConstraints(
+            minHeight: MediaQuery.of(context).size.height
+          ),
+          child:  Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const FirstTitle(),
+                const RegisterForm(),
+                PageRedirection(
+                  onTap: () {
+                    ref.read(routerProvider).push('/login');
+                  },
+                )
+              ],
+            ),
+          ), 
         ),
       ))
     ]));

@@ -11,91 +11,122 @@ class LoginPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-        body: Stack(
-      children: [
-        const BackGroundImage(),
-        SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
+      resizeToAvoidBottomInset: true,
+      body: Stack(
+        children: [
+          const BackGroundImage(),
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
                 children: [
-                  const FirstTitle(),
-                  const Expanded(child: LoginForm()),
-                  Column(
-                    children: [
-                      const Text("¿Aun no estas resgistrado?",
-                          style: TextStyle(color: Colors.white, fontSize: 20)),
-                      const Text("Te identificas como:",
-                          style: TextStyle(
-                              color: AppColors.primaryColor,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold)),
-                      const SizedBox(height: 10),
-                      Row(children: [
-                        Expanded(
-                          child: Card(
-                            color: Colors.black,
-                            shadowColor: Colors.white,
-                            child: Column(children: [
-                              IconButton(
-                                  onPressed: () {
-                                    ref
-                                        .read(routerProvider)
-                                        .push('/login/register');
-                                  },
-                                  icon: const Icon(
-                                    Icons.person_add,
-                                    color: Colors.white,
-                                    size: 40,
-                                  )),
-                              const Text(
-                                "Como usuario",
-                                style: TextStyle(
-                                    color: AppColors.primaryColor,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold),
-                              )
-                            ]),
-                          ),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          minHeight: MediaQuery.of(context).size.height,
                         ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: Card(
-                            color: Colors.black,
-                            shadowColor: Colors.white,
-                            child: Column(
-                              children: [
-                                IconButton(
-                                    onPressed: () {
-                                      ref
-                                          .read(routerProvider)
-                                          .push('/login/register-business');
-                                    },
-                                    icon: const Icon(
-                                      Icons.add_business,
+                        child: IntrinsicHeight(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              const FirstTitle(),
+                              const LoginForm(),
+                              Column(
+                                children: [
+                                  const Text(
+                                    "¿Aun no estas resgistrado?",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 20),
+                                  ),
+                                  const Text(
+                                    "Te identificas como:",
+                                    style: TextStyle(
                                       color: AppColors.primaryColor,
-                                      size: 40,
-                                    )),
-                                const Text(
-                                  "Como negocio",
-                                  style: TextStyle(
-                                      color: Colors.white,
                                       fontSize: 20,
-                                      fontWeight: FontWeight.bold),
-                                )
-                              ],
-                            ),
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Card(
+                                          color: Colors.black,
+                                          shadowColor: Colors.white,
+                                          child: Column(
+                                            children: [
+                                              IconButton(
+                                                onPressed: () {
+                                                  ref
+                                                      .read(routerProvider)
+                                                      .push('/login/register');
+                                                },
+                                                icon: const Icon(
+                                                  Icons.person_add,
+                                                  color: Colors.white,
+                                                  size: 40,
+                                                ),
+                                              ),
+                                              const Text(
+                                                "Como usuario",
+                                                style: TextStyle(
+                                                  color: AppColors.primaryColor,
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(width: 10),
+                                      Expanded(
+                                        child: Card(
+                                          color: Colors.black,
+                                          shadowColor: Colors.white,
+                                          child: Column(
+                                            children: [
+                                              IconButton(
+                                                onPressed: () {
+                                                  ref.read(routerProvider).push(
+                                                      '/login/register-business');
+                                                },
+                                                icon: const Icon(
+                                                  Icons.add_business,
+                                                  color: AppColors.primaryColor,
+                                                  size: 40,
+                                                ),
+                                              ),
+                                              const Text(
+                                                "Como negocio",
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
-                      ])
-                    ],
+                      ),
+                    ),
                   ),
-                ]),
+                ],
+              ),
+            ),
           ),
-        )
-      ],
-    ));
+        ],
+      ),
+    );
   }
 }
