@@ -42,7 +42,7 @@ class RegisterForm extends ConsumerWidget {
                     .updateLastName(value),
                 style: const TextStyle(color: Colors.white),
                 decoration: InputDecoration(
-                    labelText: 'Apellido',  
+                    labelText: 'Apellido',
                     errorText: formData.error,
                     labelStyle:
                         const TextStyle(color: Colors.white, fontSize: 20)),

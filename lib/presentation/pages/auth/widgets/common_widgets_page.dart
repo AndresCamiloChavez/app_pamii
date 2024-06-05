@@ -23,34 +23,35 @@ class FirstTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text(
-              ' Bienvenido ',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 50,
-                  fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Text(
-              ' ¡Es un gusto verte! ',
-              style: TextStyle(color: Colors.white, fontSize: 30),
-            ),
-          ],
-        )
-      ],
+    return const SafeArea(
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                ' Bienvenido ',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 50,
+                    fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                ' ¡Es un gusto verte! ',
+                style: TextStyle(color: Colors.white, fontSize: 30),
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 }
-
 
 class PageRedirection extends ConsumerWidget {
   final String message;
@@ -58,13 +59,10 @@ class PageRedirection extends ConsumerWidget {
   final VoidCallback onTap;
 
   const PageRedirection(
-      {
-      super.key,
+      {super.key,
       required this.onTap,
-      this.message = "¿No tienes cuenta aún?",
-      this.option = "Resgistrate"
-      }
-  );
+      this.message = "¿Ya tienes una cuenta?",
+      this.option = "Ingresa"});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
