@@ -1,11 +1,16 @@
 import 'package:app_pamii/core/constants/colors.dart';
+import 'package:app_pamii/presentation/providers/auth/forget/forget_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class VerificationEmailPage extends StatelessWidget {
-  const VerificationEmailPage({Key? key}) : super(key: key);
+class VerificationEmailPage extends ConsumerWidget {
+  const VerificationEmailPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+
+    final provider = ref.watch(forgetAuthRepositoryProvider);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -68,7 +73,9 @@ class VerificationEmailPage extends StatelessWidget {
                   minWidth: double.infinity,
                   shape: const StadiumBorder(),
                   color: AppTheme.theme.primaryColorDark,
-                  onPressed: () {},
+                  onPressed: () {
+                    
+                  },
                   child: const Text('Iniciar sesión',
                       style: TextStyle(color: Colors.white, fontSize: 17)),
                 ),

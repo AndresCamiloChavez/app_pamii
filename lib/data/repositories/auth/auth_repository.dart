@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:app_pamii/core/network/dio_setup.dart';
 import 'package:app_pamii/core/network/error_response.dart';
@@ -20,13 +21,9 @@ class AuthRepository {
 
   AuthRepository(this.dio, this.ref);
 
-
-  Future<ResponsePamii<T>> _makePostRequest<T>(
-    String path, 
-    Map<String, dynamic> data, 
-    T Function(Map<String, dynamic> json) fromJson,
-    [Function(T)? onSuccess]
-  ) async {
+  Future<ResponsePamii<T>> _makePostRequest<T>(String path,
+      Map<String, dynamic> data, T Function(Map<String, dynamic> json) fromJson,
+      [Function(T)? onSuccess]) async {
     try {
       final response = await dio.post(path, data: jsonEncode(data));
       if (response.statusCode == 200 || response.statusCode == 201) {
@@ -34,46 +31,50 @@ class AuthRepository {
         if (onSuccess != null) onSuccess(result);
         return ResponsePamii<T>(response: result);
       }
-      return ResponsePamii<T>(isFailure: true, messageError: "Ocurrió un error en el sistema");
+      return ResponsePamii<T>(
+          isFailure: true, messageError: "Ocurrió un error en el sistema");
     } on DioException catch (e) {
       return ResponsePamii<T>(
-        isFailure: true,
-        messageError: e.response?.data['message'] ?? "Ocurrió un error en el sistema"
-      );
+          isFailure: true,
+          messageError:
+              e.response?.data['message'] ?? "Ocurrió un error en el sistema");
     }
   }
 
-  Future<ResponsePamii<LoginUserResponse>> login(String email, String password) {
+  Future<ResponsePamii<LoginUserResponse>> login(
+      String email, String password) {
     return _makePostRequest<LoginUserResponse>(
-      '/auth/login',
-      {'email': email, 'password': password},
-      LoginUserResponse.fromJson,
-      (user) => ref.read(authProvider.notifier).login(user.token)
-    );
+        '/auth/login',
+        {'email': email, 'password': password},
+        LoginUserResponse.fromJson,
+        (user) => ref.read(authProvider.notifier).login(user.token));
   }
 
   Future<ResponsePamii<User>> register(UserRequest userRequest) {
     return _makePostRequest<User>(
-      '/users/register',
-      userRequest.toJson(),
-      User.fromJson
-    );
+        '/users/register', userRequest.toJson(), User.fromJson);
   }
 
-  Future<ResponsePamii<CompanyResponse>> registerCompany(CompanyRequest companyRequest) {
-    return _makePostRequest<CompanyResponse>(
-      '/business/register',
-      companyRequest.toJson(),
-      CompanyResponse.fromJson
-    );
-  }
-  dynamic sendCodeRecover(String email) {
-    // return _makePostRequest<CompanyResponse>(
-    //   '/business/register',
-    //   "email",
-
-    // );
-    return "";
+  Future<ResponsePamii<CompanyResponse>> registerCompany(
+      CompanyRequest companyRequest) {
+    return _makePostRequest<CompanyResponse>('/business/register',
+        companyRequest.toJson(), CompanyResponse.fromJson);
   }
 
+  Future<ResponsePamii<bool>> sendCodeRecover(String email) async {
+    try {
+      final response =
+          await dio.post("/auth/sendCodeRecoverPassword", data: {email: email});
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return ResponsePamii<bool>(response: true);
+      }
+      return ResponsePamii<bool>(response: false);
+    } on DioException catch (e) {
+      return ResponsePamii<bool>(
+          isFailure: true,
+          messageError:
+              e.response?.data['message'] ?? "Ocurrió un error en el sistema");
+    }
+  }
 }

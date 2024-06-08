@@ -1,18 +1,14 @@
-import 'package:app_pamii/core/constants/colors.dart';
 import 'package:app_pamii/core/router/app_router.dart';
 import 'package:app_pamii/presentation/pages/auth/widgets/common_widgets_page.dart';
 import 'package:app_pamii/presentation/pages/auth/widgets/form_register_business.dart';
-import 'package:app_pamii/presentation/providers/auth/register/register_business_form_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class RegisterBusinessPage extends ConsumerWidget {
   const RegisterBusinessPage({super.key});
-
+  
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final formData = ref .watch(registerCompanyFormProvider); // Usando el provider de registro
-
     return Scaffold(
       body: Stack(
         children: [
