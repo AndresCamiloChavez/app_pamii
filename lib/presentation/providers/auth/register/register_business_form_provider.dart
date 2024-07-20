@@ -143,7 +143,7 @@ class RegisterCompanyFormNotifier
       barrierDismissible:
           false, // Evita que el diálogo se cierre al tocar fuera
       builder: (BuildContext context) {
-        return const LoadingDialog(message: "Registrando negocio...");
+        return const LoadingDialog(message: "Registrando Negocio...");
       },
     );
 

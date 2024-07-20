@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:app_pamii/core/network/dio_setup.dart';
 import 'package:app_pamii/core/network/error_response.dart';
@@ -27,9 +26,19 @@ class AuthRepository {
     try {
       final response = await dio.post(path, data: jsonEncode(data));
       if (response.statusCode == 200 || response.statusCode == 201) {
-        T result = fromJson(response.data);
-        if (onSuccess != null) onSuccess(result);
-        return ResponsePamii<T>(response: result);
+        try {
+          if (response.data != null && response.data is Map<String, dynamic>) {
+            T result = fromJson(response.data);
+            if (onSuccess != null) onSuccess(result);
+            return ResponsePamii<T>(response: result);
+          } else {
+            throw Exception(
+                "Response data is not a valid Map<String, dynamic>");
+          }
+        } catch (e) {
+          return ResponsePamii<T>(
+              isFailure: true, messageError: "Error al procesar los datos");
+        }
       }
       return ResponsePamii<T>(
           isFailure: true, messageError: "Ocurrió un error en el sistema");
@@ -61,20 +70,21 @@ class AuthRepository {
         companyRequest.toJson(), CompanyResponse.fromJson);
   }
 
-  Future<ResponsePamii<bool>> sendCodeRecover(String email) async {
-    try {
-      final response =
-          await dio.post("/auth/sendCodeRecoverPassword", data: {email: email});
+  Future<ResponsePamii<MessageResponse>> sendCodeRecover(String email) {
 
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        return ResponsePamii<bool>(response: true);
-      }
-      return ResponsePamii<bool>(response: false);
-    } on DioException catch (e) {
-      return ResponsePamii<bool>(
-          isFailure: true,
-          messageError:
-              e.response?.data['message'] ?? "Ocurrió un error en el sistema");
-    }
+     return _makePostRequest<MessageResponse>(
+        '/auth/sendCodeRecoverPassword',
+        {'email': email},
+        MessageResponse.fromJson);
   }
+
+  Future<ResponsePamii<MessageResponse>> verificationCodeRecover(String email, String code) {
+
+     return _makePostRequest<MessageResponse>(
+        '/auth//verificationCode',
+        {'email': email, 'code': code},
+        MessageResponse.fromJson);
+  }
+
+  
 }

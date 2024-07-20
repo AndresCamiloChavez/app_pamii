@@ -84,69 +84,84 @@ class UserRegisterResponse {
 
 
 class LoginUserResponse {
-    LoginUserResponse user;
-    String token;
+  User user;
+  String token;
 
-    LoginUserResponse({
-        required this.user,
-        required this.token,
-    });
+  LoginUserResponse({
+    required this.user,
+    required this.token,
+  });
 
-    factory LoginUserResponse.fromJson(Map<String, dynamic> json) => LoginUserResponse(
-        user: LoginUserResponse.fromJson(json["user"]),
-        token: json["token"],
-    );
+  factory LoginUserResponse.fromJson(Map<String, dynamic> json) => LoginUserResponse(
+    user: User.fromJson(json["user"]),
+    token: json["token"],
+  );
 
-    Map<String, dynamic> toJson() => {
-        "user": user.toJson(),
-        "token": token,
-    };
+  Map<String, dynamic> toJson() => {
+    "user": user.toJson(),
+    "token": token,
+  };
 }
 
 class User {
-    int id;
-    String firstName;
-    String lastName;
-    String phone;
-    String email;
-    String birthDay;
-    bool isActive;
-    String resetCode;
-    String resetCodeTimestamp;
+  int id;
+  String firstName;
+  String lastName;
+  String phone;
+  String email;
+  String birthDay;
+  bool isActive;
+  String? resetCode;
+  String? resetCodeTimestamp;
 
-    User({
-        required this.id,
-        required this.firstName,
-        required this.lastName,
-        required this.phone,
-        required this.email,
-        required this.birthDay,
-        required this.isActive,
-        required this.resetCode,
-        required this.resetCodeTimestamp,
-    });
+  User({
+    required this.id,
+    required this.firstName,
+    required this.lastName,
+    required this.phone,
+    required this.email,
+    required this.birthDay,
+    required this.isActive,
+    this.resetCode,
+    this.resetCodeTimestamp,
+  });
 
-    factory User.fromJson(Map<String, dynamic> json) => User(
-        id: json["id"],
-        firstName: json["firstName"],
-        lastName: json["lastName"],
-        phone: json["phone"],
-        email: json["email"],
-        birthDay: json["birthDay"],
-        isActive: json["isActive"],
-        resetCode: json["resetCode"],
-        resetCodeTimestamp: json["resetCodeTimestamp"],
-    );
+  factory User.fromJson(Map<String, dynamic> json) => User(
+    id: json["id"],
+    firstName: json["firstName"],
+    lastName: json["lastName"],
+    phone: json["phone"],
+    email: json["email"],
+    birthDay: json["birthDay"],
+    isActive: json["isActive"],
+    resetCode: json["resetCode"],
+    resetCodeTimestamp: json["resetCodeTimestamp"],
+  );
 
-    Map<String, dynamic> toJson() => {
-        "id": id,
-        "firstName": firstName,
-        "lastName": lastName,
-        "phone": phone,
-        "email": email,
-        "birthDay": birthDay,
-        "isActive": isActive,
-        "resetCode": resetCode,
-        "resetCodeTimestamp": resetCodeTimestamp,
-    };
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "firstName": firstName,
+    "lastName": lastName,
+    "phone": phone,
+    "email": email,
+    "birthDay": birthDay,
+    "isActive": isActive,
+    "resetCode": resetCode,
+    "resetCodeTimestamp": resetCodeTimestamp,
+  };
+}
+
+
+class MessageResponse {
+  String message;
+  MessageResponse({
+    required this.message
+  });
+  factory MessageResponse.fromJson(Map<String, dynamic> json) => MessageResponse(
+    message: json["message"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "message": message,
+  };
 }
