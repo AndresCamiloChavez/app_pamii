@@ -1,6 +1,6 @@
 class AppConstants {
   // URLs de la API
-  static const String baseUrl = 'http://192.168.1.12:3000/api/v1';
+  static const String baseUrl = 'http://192.168.1.4:3000/api/v1';
 
   // Claves API
   static const String apiKey = 'SU_CLAVE_API_AQUI';

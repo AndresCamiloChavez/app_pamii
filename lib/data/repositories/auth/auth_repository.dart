@@ -50,13 +50,18 @@ class AuthRepository {
     }
   }
 
-  Future<ResponsePamii<LoginUserResponse>> login(
-      String email, String password) {
-    return _makePostRequest<LoginUserResponse>(
-        '/auth/login',
-        {'email': email, 'password': password},
-        LoginUserResponse.fromJson,
-        (user) => ref.read(authProvider.notifier).login(user.token));
+  Future<ResponsePamii<dynamic>> login(String email, String password) {
+    return _makePostRequest<dynamic>(
+      '/auth/login',
+      {'email': email, 'password': password},
+      parseResponse,
+      (response) {
+        if (response is UserResponse) {
+          ref.read(authProvider.notifier).login(response.token);
+        }
+        // Manejar otros tipos de respuesta aquí si es necesario
+      },
+    );
   }
 
   Future<ResponsePamii<User>> register(UserRequest userRequest) {
@@ -71,20 +76,146 @@ class AuthRepository {
   }
 
   Future<ResponsePamii<MessageResponse>> sendCodeRecover(String email) {
-
-     return _makePostRequest<MessageResponse>(
-        '/auth/sendCodeRecoverPassword',
-        {'email': email},
-        MessageResponse.fromJson);
+    return _makePostRequest<MessageResponse>('/auth/sendCodeRecoverPassword',
+        {'email': email}, MessageResponse.fromJson);
   }
 
-  Future<ResponsePamii<MessageResponse>> verificationCodeRecover(String email, String code) {
-
-     return _makePostRequest<MessageResponse>(
-        '/auth//verificationCode',
-        {'email': email, 'code': code},
-        MessageResponse.fromJson);
+  Future<ResponsePamii<MessageResponse>> verificationCodeRecover(
+      String email, String code) {
+    return _makePostRequest<MessageResponse>('/auth/verificationCode',
+        {'email': email, 'code': code}, MessageResponse.fromJson);
   }
 
-  
+  dynamic parseResponse(Map<String, dynamic> json) {
+    if (json.containsKey('business')) {
+      return BusinessResponse.fromJson(json);
+    } else if (json.containsKey('user')) {
+      return UserResponse.fromJson(json);
+    } else {
+      throw Exception("No se puede determinar el tipo de respuesta");
+    }
+  }
+}
+
+// Definición de modelos de respuesta
+
+class ResponsePamii<T> {
+  final T? response;
+  final bool isFailure;
+  final String? messageError;
+
+  ResponsePamii({this.response, this.isFailure = false, this.messageError});
+}
+
+class UserResponse {
+  final User user;
+  final String token;
+
+  UserResponse({required this.user, required this.token});
+
+  factory UserResponse.fromJson(Map<String, dynamic> json) {
+    return UserResponse(
+      user: User.fromJson(json['user']),
+      token: json['token'],
+    );
+  }
+}
+
+class BusinessResponse {
+  final Business business;
+  final String token;
+
+  BusinessResponse({required this.business, required this.token});
+
+  factory BusinessResponse.fromJson(Map<String, dynamic> json) {
+    return BusinessResponse(
+      business: Business.fromJson(json['business']),
+      token: json['token'],
+    );
+  }
+}
+
+class User {
+  final int id;
+  final String firstName;
+  final String lastName;
+  final String phone;
+  final String email;
+  final String birthDay;
+  final bool isActive;
+  final String? resetCode;
+  final String? resetCodeTimestamp;
+
+  User({
+    required this.id,
+    required this.firstName,
+    required this.lastName,
+    required this.phone,
+    required this.email,
+    required this.birthDay,
+    required this.isActive,
+    this.resetCode,
+    this.resetCodeTimestamp,
+  });
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      id: json['id'],
+      firstName: json['firstName'],
+      lastName: json['lastName'],
+      phone: json['phone'],
+      email: json['email'],
+      birthDay: json['birthDay'],
+      isActive: json['isActive'],
+      resetCode: json['resetCode'],
+      resetCodeTimestamp: json['resetCodeTimestamp'],
+    );
+  }
+}
+
+class Business {
+  final int id;
+  final String name;
+  final String description;
+  final String? urlLogo;
+  final String? urlFrontPage;
+  final String? address;
+  final bool isActive;
+  final String email;
+
+  Business({
+    required this.id,
+    required this.name,
+    required this.description,
+    this.urlLogo,
+    this.urlFrontPage,
+    this.address,
+    required this.isActive,
+    required this.email,
+  });
+
+  factory Business.fromJson(Map<String, dynamic> json) {
+    return Business(
+      id: json['id'],
+      name: json['name'],
+      description: json['description'],
+      urlLogo: json['urlLogo'],
+      urlFrontPage: json['urlFrontPage'],
+      address: json['address'],
+      isActive: json['isActive'],
+      email: json['email'],
+    );
+  }
+}
+
+class MessageResponse {
+  final String message;
+
+  MessageResponse({required this.message});
+
+  factory MessageResponse.fromJson(Map<String, dynamic> json) {
+    return MessageResponse(
+      message: json['message'],
+    );
+  }
 }
